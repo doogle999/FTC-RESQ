@@ -118,6 +118,9 @@ public class ModularTeleOp extends OpMode
     servoContainer frontLeftShield = new servoContainer("frontLeftShield", 0.05, 1, 0.5, 0.05);
     servoContainer frontRightShield = new servoContainer("frontRightShield", 0.05, 0.5, 0, 0.05);
 
+    servoContainer leftHook = new servoContainer("leftHook", 0.05, 1, 0.75, 0.05);
+    servoContainer rightHook = new servoContainer("rightHook", 0.05, 0.25, 0, 0.05);
+
     @Override
     public void init()
     {
@@ -141,8 +144,11 @@ public class ModularTeleOp extends OpMode
         centerHand.init();
 
         backShield.init();
-        frontRightShield.init();
         frontLeftShield.init();
+        frontRightShield.init();
+
+        leftHook.init();
+        rightHook.init();
     }
 
     boolean initServos = true;
@@ -163,6 +169,9 @@ public class ModularTeleOp extends OpMode
             backShield.loopInit(0);
             frontLeftShield.loopInit(1);
             frontRightShield.loopInit(0);
+
+            leftHook.loopInit(1);
+            rightHook.loopInit(0);
 
             initServos = false;
         }
@@ -193,16 +202,10 @@ public class ModularTeleOp extends OpMode
             winch.setPower(0);
 
         // Left Climber - 1
-        if(gamepad1.left_bumper)
-            leftClimber.setTarget(1, true);
-        else if(gamepad1.left_trigger >= 0.5)
-            leftClimber.setTarget(0.4, true);
+        leftClimber.setTarget(1 - gamepad1.left_trigger * (1 - 0.4), true);
 
         // Right Climber - 1
-        if(gamepad1.right_bumper)
-            rightClimber.setTarget(0, true);
-        else if (gamepad1.right_trigger >= 0.5)
-            rightClimber.setTarget(0.6, true);
+        rightClimber.setTarget(gamepad1.right_trigger * 0.6, true);
 
         // Top Climber - 1
         if(gamepad1.y)
@@ -239,6 +242,20 @@ public class ModularTeleOp extends OpMode
         backShield.update();
         frontLeftShield.update();
         frontRightShield.update();
+
+        if(gamepad1.left_bumper)
+        {
+            leftHook.setTarget(1, true);
+            rightHook.setTarget(0, true);
+        }
+        else if(gamepad1.right_bumper)
+        {
+            leftHook.setTarget(0.75, true);
+            rightHook.setTarget(0.25, true);
+        }
+
+        leftHook.update();
+        rightHook.update();
     }
 
     @Override
