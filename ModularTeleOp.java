@@ -104,8 +104,6 @@ public class ModularTeleOp extends OpMode
 
     DcMotor elevator;
 
-    DcMotor winch;
-
     servoContainer leftClimber = new servoContainer("leftClimber", 0.05, 1, 0, 0.05);
     servoContainer rightClimber = new servoContainer("rightClimber", 0.05, 1, 0, 0.05);
     servoContainer topClimber = new servoContainer("topClimber", 0.05, 1, 0, 0.05);
@@ -132,8 +130,6 @@ public class ModularTeleOp extends OpMode
         spinner = hardwareMap.dcMotor.get("spinner");
 
         elevator = hardwareMap.dcMotor.get("elevator");
-
-        winch = hardwareMap.dcMotor.get("winch");
 
         leftClimber.init();
         rightClimber.init();
@@ -192,14 +188,6 @@ public class ModularTeleOp extends OpMode
 
         // Elevator - 2
         elevator.setPower(-Range.clip(gamepad2.left_stick_y, -1, 1));
-
-        // Winch - 2
-        if(gamepad2.y)
-            winch.setPower(1);
-        else if(gamepad2.a)
-            winch.setPower(-1);
-        else
-            winch.setPower(0);
 
         // Left Climber - 1
         leftClimber.setTarget(1 - gamepad1.left_trigger * (1 - 0.4), true);
