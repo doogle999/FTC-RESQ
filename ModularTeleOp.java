@@ -119,6 +119,8 @@ public class ModularTeleOp extends OpMode
     servoContainer leftHook = new servoContainer("leftHook", 0.05, 1, 0.75, 0.05);
     servoContainer rightHook = new servoContainer("rightHook", 0.05, 0.25, 0, 0.05);
 
+    double slowElevator;
+
     @Override
     public void init()
     {
@@ -145,6 +147,8 @@ public class ModularTeleOp extends OpMode
 
         leftHook.init();
         rightHook.init();
+
+        slowElevator = 1;
     }
 
     boolean initServos = true;
@@ -187,7 +191,7 @@ public class ModularTeleOp extends OpMode
             spinner.setPower(0);
 
         // Elevator - 2
-        elevator.setPower(-Range.clip(gamepad2.left_stick_y, -1, 1));
+            elevator.setPower(-Range.clip(gamepad2.left_stick_y, -1, 1) * slowElevator);
 
         // Left Climber - 1
         leftClimber.setTarget(1 - gamepad1.left_trigger * (1 - 0.4), true);
@@ -214,13 +218,13 @@ public class ModularTeleOp extends OpMode
         centerHand.update();
 
         // Shields - 1
-        if(gamepad1.x)
+        if(gamepad1.b)
         {
             backShield.setTarget(0, true);
             frontLeftShield.setTarget(1, true);
             frontRightShield.setTarget(0, true);
         }
-        else if (gamepad1.b)
+        else if (gamepad1.x)
         {
             backShield.setTarget(0.5, true);
             frontLeftShield.setTarget(0.5, true);
@@ -231,12 +235,12 @@ public class ModularTeleOp extends OpMode
         frontLeftShield.update();
         frontRightShield.update();
 
-        if(gamepad1.left_bumper)
+        if(gamepad1.right_bumper)
         {
             leftHook.setTarget(1, true);
             rightHook.setTarget(0, true);
         }
-        else if(gamepad1.right_bumper)
+        else if(gamepad1.left_bumper)
         {
             leftHook.setTarget(0.75, true);
             rightHook.setTarget(0.25, true);
@@ -244,6 +248,11 @@ public class ModularTeleOp extends OpMode
 
         leftHook.update();
         rightHook.update();
+
+        if(gamepad2.back) // Slow the elevator - 2
+            slowElevator = 0.25;
+        else if(gamepad2.start)
+            slowElevator = 1;
     }
 
     @Override
