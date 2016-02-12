@@ -110,7 +110,7 @@ public class ModularTeleOp extends OpMode
 
     servoContainer leftHand = new servoContainer("leftHand", 0.05, 0.75, 0.1, 0.05);
     servoContainer rightHand = new servoContainer("rightHand", 0.05, 0.85, 0.1, 0.05);
-    servoContainer centerHand = new servoContainer("centerHand", 0.05, 0.9, 0.4, 0.05);
+    servoContainer centerHand = new servoContainer("centerHand", 0.05, 0.9, 0.3, 0.05);
 
     servoContainer backShield = new servoContainer("backShield", 0.05, 0.5, 0, 0.05);
     servoContainer frontLeftShield = new servoContainer("frontLeftShield", 0.05, 1, 0.5, 0.05);
@@ -164,7 +164,7 @@ public class ModularTeleOp extends OpMode
 
             leftHand.loopInit(0.1);
             rightHand.loopInit(0.85);
-            centerHand.loopInit(0.75);
+            centerHand.loopInit(0.6);
 
             backShield.loopInit(0);
             frontLeftShield.loopInit(1);
@@ -211,7 +211,7 @@ public class ModularTeleOp extends OpMode
         rightHand.setTarget(gamepad2.right_trigger * -(0.85 - 0.1) + 0.85, true);
         leftHand.setTarget(gamepad2.left_trigger * (0.75 - 0.1) + 0.1, true);
 
-        centerHand.setTarget(-((gamepad2.right_stick_x + 1) / 4) + 0.9, true);
+        centerHand.setTarget(-((gamepad2.right_stick_x + 1) * 0.3) + 0.9, true);
 
         leftHand.update();
         rightHand.update();
